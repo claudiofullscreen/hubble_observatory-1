@@ -1,5 +1,12 @@
 require "hubble_observatory/version"
+require "hubble_observatory/configuration"
 
 module HubbleObservatory
-  # Your code goes here...
+  def self.configuration
+    @configuration ||= Configuration.new
+  end
+
+  def self.configure
+    yield configuration if block_given?
+  end
 end
