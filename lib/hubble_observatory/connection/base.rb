@@ -25,15 +25,6 @@ module HubbleObservatory
         raise ConnectionError, e.message
       end
 
-      def self.json_for(uri)
-        response = response_for(get_http_request(uri), uri)
-        if response.code == '200'
-          JSON.parse(response.body, symbolize_names: true)
-        else
-          raise HubbleDataNotFound, "Error #{response.code}: #{response.body}"
-        end
-      end
-
       def self.assign_headers(request)
         headers.each_key do |header|
           request[header] = headers[header]

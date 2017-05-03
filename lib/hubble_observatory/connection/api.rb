@@ -29,10 +29,6 @@ module HubbleObservatory
         HubbleObservatory.configuration.app_access_token
       end
 
-      def self.post_http_request(uri)
-        Net::HTTP::Post.new uri
-      end
-
       def self.api_path
         "/api/v1"
       end
