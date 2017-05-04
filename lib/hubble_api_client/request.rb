@@ -28,7 +28,7 @@ module HubbleApiClient
       if response.code == '200'
         JSON.parse response.body, symbolize_names: true
       else
-        raise HubbleApiclientNotFound, "Error #{response.code}: #{response.body}"
+        raise HubbleApiClientNotFound, "Error #{response.code}: #{response.body}"
       end
     end
   end
