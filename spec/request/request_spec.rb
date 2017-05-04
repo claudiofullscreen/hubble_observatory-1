@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.describe HubbleObservatory::Observatory do
+RSpec.describe HubbleApiClient::Request do
   let(:valid_email) { "bruce.park@fullscreen.com" }
   let(:invalid_email) { "john-example.com" }
 

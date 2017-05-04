@@ -1,4 +1,4 @@
-module HubbleObservatory
+module HubbleApiClient
   # @api private
   module Connection
     class Base

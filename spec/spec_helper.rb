@@ -1,6 +1,6 @@
 require "bundler/setup"
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
-require "hubble_observatory"
+require "hubble_api_client"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

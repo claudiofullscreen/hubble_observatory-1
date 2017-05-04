@@ -1,4 +1,4 @@
-module HubbleObservatory
+module HubbleApiClient
   class Configuration
     attr_accessor :app_access_token
 

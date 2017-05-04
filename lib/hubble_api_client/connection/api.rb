@@ -1,7 +1,7 @@
-require 'hubble_observatory/connection/base'
+require 'hubble_api_client/connection/base'
 require 'json'
 
-module HubbleObservatory
+module HubbleApiClient
   # @api private
   module Connection
     class API < Base
@@ -26,7 +26,7 @@ module HubbleObservatory
       end
 
       def self.app_access_token
-        HubbleObservatory.configuration.app_access_token
+        HubbleApiClient.configuration.app_access_token
       end
 
       def self.api_path

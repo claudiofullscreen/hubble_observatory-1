@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'hubble_observatory/version'
+require 'hubble_api_client/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "hubble_observatory"
-  spec.version       = HubbleObservatory::VERSION
+  spec.name          = "hubble_api_client"
+  spec.version       = HubbleApiClient::VERSION
   spec.authors       = ["Bruce Park"]
   spec.email         = ["bruce.park@fullscreen.net"]
 
