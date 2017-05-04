@@ -1,12 +1,12 @@
 module HubbleApiClient
-  class Request
-    def self.get_uuid(email)
-      parse Connection::API.get_request(route: "accounts-users", query: build_query({"email" => email}))
+  class TalentAccount
+    def self.get_uuid(email:, id:)
+      parse Connection::API.get_request(route: "talent-accounts", query: build_query({"email" => email, "id" => id}))
     end
 
-    def self.create_uuid(email)
-      body = serialize_attributes(attributes: {email: email}, resource_type: "accounts_users")
-      parse Connection::API.post_request(route: "accounts-users", body: body)
+    def self.create_uuid(email:, id:)
+      body = serialize_attributes(attributes: {email: email, id: id}, resource_type: "talent-accounts")
+      parse Connection::API.post_request(route: "talent-accounts", body: body)
     end
 
     private
