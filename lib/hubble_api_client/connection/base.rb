@@ -33,7 +33,8 @@ module HubbleApiClient
       end
 
       def self.headers
-        {"Authorization" => "Bearer #{app_access_token}"}
+        {"Authorization" => "Bearer #{app_access_token}",
+         "Content-Type" => "application/vnd.api+json"}
       end
     end
   end
