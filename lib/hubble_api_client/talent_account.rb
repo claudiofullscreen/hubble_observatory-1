@@ -14,25 +14,24 @@ module HubbleApiClient
       @email = email
       @id = id
       account_data = create_uuid
-      account_data = get_uuid if account_data[:errors].present?
-      raise HubbleApiClientNotFound, "Error(s): #{account_data[:errors]}" if account_data[:errors].present?
-      new data: account_data[:data]
+      account_data = account_data[:errors].present? ? get_uuid : account_data
+      if account_data[:errors].present?
+        raise HubbleApiClientNotFound, "Error(s): #{account_data[:errors]}"
+      else
+        new data: account_data[:data]
+      end
     end
 
 
     private
 
     def self.get_uuid
-      parse Connection::API.get_request(route: "talent-accounts", query: build_query({"email" => @email, "id" => @id}))
+      parse API.get_request(route: "talent-accounts", query: URI.encode_www_form("email"=>@email, "gorilla_id" => @gorilla_id))
     end
 
     def self.create_uuid
-      body = serialize_attributes(attributes: {email: @email, id: @id}, resource_type: "talent-accounts")
-      parse Connection::API.post_request(route: "talent-accounts", body: body)
-    end
-
-    def self.build_query(params)
-      params.map { |k, v| "#{k}=#{v}" }.join("&")
+      body = serialize_attributes(attributes: {email: @email, gorilla_id: @gorilla_id}, resource_type: "talent-accounts")
+      parse API.post_request(route: "talent-accounts", body: body)
     end
 
     def self.serialize_attributes(attributes:, resource_type:)
