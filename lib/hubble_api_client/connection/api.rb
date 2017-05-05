@@ -22,7 +22,7 @@ module HubbleApiClient
     private
 
       def self.host
-        ENV['HUBBLE_API_URL']
+        HubbleApiClient.configuration.host_url
       end
 
       def self.app_access_token
