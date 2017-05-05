@@ -1,19 +1,19 @@
 require "spec_helper"
 
 RSpec.describe HubbleApiClient::TalentAccount do
-  let(:valid_email_with_user_id) { { email: "bruce.park@fullscreen.com", id: 1 } }
-  let(:invalid_email_with_user_id) { { email: "john-example.com", id: 1  } }
+  let(:valid_args) { { email: "bruce.park@fullscreen.com", gorilla_id: 1 } }
+  let(:invalid_args) { { email: "john-example.com", gorilla_id: 1  } }
 
   describe "find_or_create_by!" do
-    context "valid_email_with_user_id" do
+    context "with valid email and id arguments" do
       it "should return a TalentAccount" do
-        expect(HubbleApiClient::TalentAccount.find_or_create_by!(valid_email_with_user_id)).to be_a(HubbleApiClient::TalentAccount)
+        expect(HubbleApiClient::TalentAccount.find_or_create_by!(valid_args)).to be_a(HubbleApiClient::TalentAccount)
       end
     end
 
-    context "invalid_email_with_user_id" do
+    context "with invalid  email and id arguments" do
       it "should raise an error" do
-        expect { HubbleApiClient::TalentAccount.find_or_create_by!(invalid_email_with_user_id) }.to raise_error
+        expect { HubbleApiClient::TalentAccount.find_or_create_by!(invalid_args) }.to raise_error
       end
     end
   end

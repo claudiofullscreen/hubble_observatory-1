@@ -2,13 +2,6 @@
 
 HubbleApiClient is a Ruby library to make it easy to interact with the Hubble API.
 
-## Usage
-
-This is a very early version, and right now you are limited to finding
-or creating unique Hubble UUID's given a talent account's email and
-database id.
-
-
 ## Installation and Configuration
 
 Add this line to your application's Gemfile:
@@ -26,7 +19,7 @@ Or install it yourself as:
     $ gem install hubble_api_client
 
 
-HubbleApiClient will require a HUBBLE_API_URL and a HUBBLE_APP_TOKEN which you can obtain from the data team.
+HubbleApiClient requires a HUBBLE_API_URL and a HUBBLE_APP_TOKEN which you can obtain from https://hubble.fullscreen.net.
 
 1. If you're using this in Rails, you can choose to create an initializer instead and configure the URL and TOKEN as follows:
 
