@@ -1,15 +1,35 @@
 module HubbleApiClient
   class TalentAccount
-    def self.get_uuid(email:, id:)
-      parse Connection::API.get_request(route: "talent-accounts", query: build_query({"email" => email, "id" => id}))
+    attr_reader :data
+
+    def initialize(data:)
+      @data = data
     end
 
-    def self.create_uuid(email:, id:)
-      body = serialize_attributes(attributes: {email: email, id: id}, resource_type: "talent-accounts")
-      parse Connection::API.post_request(route: "talent-accounts", body: body)
+    def uuid
+      data[:attributes][:uuid]
     end
+
+    def self.find_or_create_by!(email:, id:)
+      @email = email
+      @id = id
+      account_data = create_uuid
+      account_data = get_uuid if account_data[:errors].present?
+      raise HubbleApiClientNotFound, "Error(s): #{account_data[:errors]}" if account_data[:errors].present?
+      new data: account_data[:data]
+    end
+
 
     private
+
+    def self.get_uuid
+      parse Connection::API.get_request(route: "talent-accounts", query: build_query({"email" => @email, "id" => @id}))
+    end
+
+    def self.create_uuid
+      body = serialize_attributes(attributes: {email: @email, id: @id}, resource_type: "talent-accounts")
+      parse Connection::API.post_request(route: "talent-accounts", body: body)
+    end
 
     def self.build_query(params)
       params.map { |k, v| "#{k}=#{v}" }.join("&")
@@ -25,11 +45,7 @@ module HubbleApiClient
     end
 
     def self.parse(response)
-      if response.code == '200'
-        JSON.parse response.body, symbolize_names: true
-      else
-        raise HubbleApiClientNotFound, "Error #{response.code}: #{response.body}"
-      end
+      data_response = JSON.parse response.body, symbolize_names: true
     end
   end
 end

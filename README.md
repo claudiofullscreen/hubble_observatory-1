@@ -1,10 +1,15 @@
 # HubbleApiClient
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/hubble_api_client`. To experiment with that code, run `bin/console` for an interactive prompt.
+HubbleApiClient is a Ruby library to make it easy to interact with the Hubble API.
 
-TODO: Delete this and the text above, and describe your gem
+## Usage
 
-## Installation
+This is a very early version, and right now you are limited to finding
+or creating unique Hubble UUID's given a talent account's email and
+database id.
+
+
+## Installation and Configuration
 
 Add this line to your application's Gemfile:
 
@@ -20,9 +25,29 @@ Or install it yourself as:
 
     $ gem install hubble_api_client
 
-## Usage
 
-TODO: Write usage instructions here
+HubbleApiClient will require a HUBBLE_API_URL and a HUBBLE_APP_TOKEN which you can obtain from the data team.
+
+1. If you're using this in Rails, you can choose to create an initializer instead and configure the URL and TOKEN as follows:
+
+    ```ruby
+    HubbleApiClient.configure do |config|
+      config.app_access_token = 'YourAccessToken'
+      config.host_url = 'HubbleApiBaseURL'
+    end
+    ```
+
+### API Overview
+
+#### Use #find_or_create_by! to get a talent account object so we can
+find the hubble UUID for that account
+
+
+```ruby
+talent_account = TalentAccount.find_or_create_by!(email: "someone@fullscreen.com", id: 1)
+talent_account.uuid # => '123456'
+
+```
 
 ## Development
 
