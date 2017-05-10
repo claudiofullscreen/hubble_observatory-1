@@ -18,6 +18,12 @@ module HubbleApiClient
       response_for(post_http_request(uri, body), uri)
     end
 
+    def self.put_request(route:, body:)
+      uri = URI::HTTPS.build host: host,
+        path: "/api/v1/#{route}"
+      response_for(put_http_request(uri, body), uri)
+    end
+
   private
 
     def self.host

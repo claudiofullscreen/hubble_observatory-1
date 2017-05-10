@@ -15,6 +15,12 @@ module HubbleApiClient
       assign_headers(request)
     end
 
+    def self.put_http_request(uri, body)
+      request = Net::HTTP::Put.new uri
+      request.body = body.to_json
+      assign_headers(request)
+    end
+
     def self.response_for(http_request, uri)
       response = Net::HTTP.start(uri.host, 443, use_ssl: true) do |http|
         http.request http_request
