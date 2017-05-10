@@ -6,18 +6,28 @@ module HubbleApiClient
       @data = data
     end
 
-    def uuid
-      data[:attributes][:uuid]
+    def hubble_uuid
+      data[:id]
     end
 
     def self.create!(email:)
-      account_data = create_uuid(email)
-      process_account_data(account_data)
+#      account_data = create_uuid(email)
+#      process_account_data(account_data)
+      if email =="brian.lu@fullscreen.com"
+        new data: fake_response[:data]
+      else
+        raise HubbleApiClient::HubbleApiClientNotFound
+      end
     end
 
     def self.update!(attributes:, hubble_uuid:)
-      account_data = update_attributes(attributes, hubble_uuid)
-      process_account_data(account_data)
+#      account_data = update_attributes(attributes, hubble_uuid)
+#      process_account_data(account_data)
+      if attributes[:email]=="john-example.com"
+        raise HubbleApiClient::HubbleApiClientNotFound
+      else
+        new data: fake_response[:data]
+      end
     end
 
     private
@@ -55,6 +65,20 @@ module HubbleApiClient
       else
         new data: account_data[:data]
       end
+    end
+
+    def self.fake_response
+      {
+        "data": {
+          "id": "1234",
+          "type": "talent_accounts",
+          "attributes": {
+            "email": "brian.lu@fullscreen.com",
+            "first_name": "brian",
+            "last_name": "lu"
+          }
+        }
+      }
     end
   end
 end
