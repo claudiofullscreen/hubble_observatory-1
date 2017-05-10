@@ -7,7 +7,7 @@ module HubbleApiClient
     end
 
     def hubble_uuid
-      data[:id]
+      data.fetch(:id, nil)
     end
 
     def self.create(email:)
@@ -16,7 +16,7 @@ module HubbleApiClient
       if email!="john-example.com"
         new data: fake_response(email)[:data]
       else
-        nil
+        new data: {}
       end
     end
 
@@ -24,7 +24,7 @@ module HubbleApiClient
 #      account_data = update_attributes(attributes, hubble_uuid)
 #      process_account_data(account_data)
       if attributes[:email]=="john-example.com"
-        nil
+        new data: {}
       else
         new data: fake_response(attributes[:email])[:data]
       end

@@ -9,14 +9,14 @@ RSpec.describe HubbleApiClient::TalentAccount do
     context "with valid arguments" do
       let(:talent_account) { HubbleApiClient::TalentAccount.create(email: valid_email) }
       it "should return a TalentAccount" do
-        expect(talent_account).to be_a(HubbleApiClient::TalentAccount)
         expect(talent_account.hubble_uuid).to eq hubble_uuid
       end
     end
 
     context "with invalid arguments" do
+      let(:talent_account) { HubbleApiClient::TalentAccount.create(email: invalid_email) }
       it "should return nil" do
-        expect(HubbleApiClient::TalentAccount.create(email: invalid_email)).to eq(nil)
+        expect(talent_account.hubble_uuid).to eq(nil)
       end
     end
   end
@@ -25,14 +25,14 @@ RSpec.describe HubbleApiClient::TalentAccount do
     context "with valid arguments" do
       let(:talent_account) { HubbleApiClient::TalentAccount.update(attributes: {email: valid_email}, hubble_uuid: hubble_uuid) }
       it "should return a TalentAccount" do
-        expect(talent_account).to be_a(HubbleApiClient::TalentAccount)
         expect(talent_account.hubble_uuid).to eq hubble_uuid
       end
     end
 
     context "with invalid arguments" do
+      let(:talent_account) { HubbleApiClient::TalentAccount.update(attributes: {email: invalid_email}, hubble_uuid: hubble_uuid) }
       it "should raise an error" do
-        expect(HubbleApiClient::TalentAccount.update(attributes: {email: invalid_email}, hubble_uuid: hubble_uuid)).to eq(nil)
+        expect(talent_account.hubble_uuid).to eq(nil)
       end
     end
   end
