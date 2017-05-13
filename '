@@ -1,7 +1,19 @@
+require 'pry'
 module HubbleApiClient
   class TalentAccount
+    attr_reader :data
+
+    def initialize(data:)
+      @data = data
+    end
+
+    def hubble_uuid
+      data.fetch(:id, nil)
+    end
+
     def self.create(email:)
       account_data = create_uuid(email)
+      binding.pry
       process_account_data(account_data)
     end
 
@@ -36,10 +48,10 @@ module HubbleApiClient
     end
 
     def self.process_account_data(account_data)
-      if !account_data[:errors].nil?
-        nil
+      if account_data[:errors].nil?
+        new data: {}
       else
-        account_data[:data][:id]
+        new data: account_data[:data]
       end
     end
   end
