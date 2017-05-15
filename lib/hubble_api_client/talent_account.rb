@@ -55,7 +55,7 @@ module HubbleApiClient
         http.request http_request
       end
       response
-    rescue SocketError => e
+    rescue *server_errors => e
       raise ConnectionError, e.message
     end
 
@@ -74,6 +74,18 @@ module HubbleApiClient
     def self.headers
       {"Authorization" => "Bearer #{ENV['HUBBLE_APP_TOKEN']}",
        "Content-Type" => "application/vnd.api+json"}
+    end
+
+    def self.server_errors
+      [
+        OpenSSL::SSL::SSLError,
+        Errno::ETIMEDOUT,
+        Errno::EHOSTUNREACH,
+        Errno::ENETUNREACH,
+        Errno::ECONNRESET,
+        Net::OpenTimeout,
+        SocketError
+      ]
     end
   end
 end
