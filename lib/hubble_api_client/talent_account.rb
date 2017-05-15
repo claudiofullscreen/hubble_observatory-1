@@ -7,23 +7,23 @@ module HubbleApiClient
     end
 
     def self.create(email:)
-      body = serialize_attributes(attributes: {email: email}, resource_type: "talent-accounts")
+      body = serialize_attributes(attributes: {email: email})
       data = parse process_request(route: "talent-accounts", body: body, request_type: "post")
       process_account_data(data)
     end
 
     def update(email:)
-      body = self.class.serialize_attributes(attributes: {email: email}, resource_type: "talent-accounts")
+      body = self.class.serialize_attributes(attributes: {email: email})
       data = self.class.parse self.class.process_request(route: "talent-accounts/#{hubble_uuid}", body: body, request_type: "put")
       self.class.process_account_data(data)
     end
 
     private
 
-    def self.serialize_attributes(attributes:, resource_type:)
+    def self.serialize_attributes(attributes:)
       {
         data: {
-          type: resource_type,
+          type: "talent-accounts",
           attributes: attributes
         }
       }
@@ -50,11 +50,6 @@ module HubbleApiClient
       response_for(assign_headers(request), uri)
     end
 
-    def self.host
-      {"production" => "hubble.fullscreen.net",
-       "staging" => "stage-hubble.fullscreen.net"}
-    end
-
     def self.response_for(http_request, uri)
       response = Net::HTTP.start(uri.host, 443, use_ssl: true) do |http|
         http.request http_request
@@ -69,6 +64,11 @@ module HubbleApiClient
         request[header] = headers[header]
       end
       request
+    end
+
+    def self.host
+      {"production" => "hubble.fullscreen.net",
+       "staging" => "stage-hubble.fullscreen.net"}
     end
 
     def self.headers
