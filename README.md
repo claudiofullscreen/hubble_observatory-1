@@ -19,15 +19,18 @@ Or install it yourself as:
     $ gem install hubble_api_client
 
 
-HubbleApiClient requires a HUBBLE_API_URL and a HUBBLE_APP_TOKEN which you can obtain from https://hubble.fullscreen.net.
+HubbleApiClient requires a HUBBLE_APP_TOKEN which you can obtain from https://hubble.fullscreen.net.
 
 1. If you're using this in Rails, you can choose to create an initializer instead and configure the URL and TOKEN as follows:
 
     ```ruby
     HubbleApiClient.configure do |config|
-      config.app_access_token = 'YourAccessToken'
-      config.host_url = 'HubbleApiBaseURL'
+      config.app_access_token = ENV['HUBBLE_APP_TOKEN']
+      config.environment = Rails.env # "staging" or "production"
     end
+
+    # Note: any value other than production in config.environment will
+point the gem to use the hubble staging API url
     ```
 
 ### API Overview
@@ -47,7 +50,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 To run the test suite:
 
-First create a .env file with HUBBLE_APP_TOKEN like in .env.example. Then at the terminal do `source .env`.
+When testing locally, first create a .env file with HUBBLE_APP_TOKEN like in .env.example. Then at the terminal do `source .env`.
 
 ```ruby
 bundle exec rspec spec

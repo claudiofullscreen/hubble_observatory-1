@@ -4,7 +4,7 @@ describe 'HubbleApiClient::Configuration' do
   after :all do
     HubbleApiClient.configure do |config|
       config.app_access_token = ENV['HUBBLE_APP_TOKEN']
-      config.host_url = ENV['HUBBLE_API_URL']
+      config.environment = "staging"
     end
   end
 
@@ -12,16 +12,16 @@ describe 'HubbleApiClient::Configuration' do
     expect(HubbleApiClient.configure).to be(nil)
   end
 
-  describe "given a block with: { |config| config.app_access_token = '123xyz' }" do
+  describe "given a block with the app_access_token and environment" do
     before do
       HubbleApiClient.configure do |config|
         config.app_access_token = '123xyz'
-        config.host_url = '123xyz'
+        config.environment = "staging"
       end
     end
-    it 'should change the Configuration#app_access_token to 123xyz' do
+    it 'should change the Configuration#app_access_token and the host_url' do
       expect(HubbleApiClient.configuration.app_access_token).to eq('123xyz')
-      expect(HubbleApiClient.configuration.host_url).to eq('123xyz')
+      expect(HubbleApiClient.configuration.host_url).to eq('stage-hubble.fullscreen.net')
     end
   end
 end
