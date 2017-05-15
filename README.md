@@ -21,16 +21,12 @@ Or install it yourself as:
 
 HubbleApiClient requires a HUBBLE_APP_TOKEN which you can obtain from https://hubble.fullscreen.net.
 
-1. If you're using this in Rails, you can choose to create an initializer instead and configure the URL and TOKEN as follows:
+1. Set the following ENV variables in your Ruby/Rails application
 
     ```ruby
-    HubbleApiClient.configure do |config|
-      config.app_access_token = ENV['HUBBLE_APP_TOKEN']
-      config.environment = Rails.env # "staging" or "production"
-    end
-
-    # Note: any value other than production in config.environment will
-point the gem to use the hubble staging API url
+      ENV['HUBBLE_APP_TOKEN'] = zzz
+      ENV['HUBBLE_ENV'] = Rails.env # if you're using on Rails, could
+return "staging", "production", or "development"
     ```
 
 ### API Overview
