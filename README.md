@@ -24,15 +24,24 @@ HubbleApiClient requires a HUBBLE_APP_TOKEN which you can obtain from https://hu
 1. Set the following ENV variables in your Ruby/Rails application
 
     ```ruby
-      ENV['HUBBLE_APP_TOKEN'] = zzz
-      ENV['HUBBLE_ENV'] = Rails.env # if you're using on Rails, could
-return "staging", "production", or "development"
+      ENV['HUBBLE_APP_TOKEN'] = hubble_app_token_given_to_you
+      ENV['HUBBLE_ENV'] = "staging" # if you're using on Rails, could be "staging", "production", or "development"
     ```
 
-### API Overview
+### Talents API Overview
+
+#### Use #create to create a new unique Hubble uuid associated with an email
 
 ```ruby
 talent_account = TalentAccount.create(email: "someone@fullscreen.com")
+# => '123456'
+```
+
+#### Use #update to update an email with an already assigned Hubble uuid
+
+```ruby
+talent_account = TalentAccount.new(id: '123456').update(email:
+"update_someone@fullscreen.com")
 # => '123456'
 ```
 

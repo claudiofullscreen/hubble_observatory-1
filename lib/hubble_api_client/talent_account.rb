@@ -6,12 +6,14 @@ module HubbleApiClient
       @hubble_uuid = id
     end
 
+    # @return [String] the hubble uuid associated with the email
     def self.create(email:)
       body = serialize_attributes(attributes: {email: email})
       data = parse process_request(route: "talent-accounts", body: body, request_type: "post")
       process_account_data(data)
     end
 
+    # @return [String] the hubble uuid associated with the email
     def update(email:)
       body = self.class.serialize_attributes(attributes: {email: email})
       data = self.class.parse self.class.process_request(route: "talent-accounts/#{hubble_uuid}", body: body, request_type: "put")
@@ -42,7 +44,7 @@ module HubbleApiClient
     end
 
     def self.process_request(route:, body:, request_type:)
-      uri = URI::HTTPS.build host: host.fetch(ENV['HUBBLE_ENV'], 'localhost:3000'),
+      uri = URI::HTTPS.build host: host.fetch(ENV['HUBBLE_ENV']),
         path: "/api/v1/#{route}"
       net_http_class = Object.const_get("Net::HTTP::#{request_type.capitalize}")
       request = net_http_class.new uri
