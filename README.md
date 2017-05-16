@@ -19,27 +19,30 @@ Or install it yourself as:
     $ gem install hubble_api_client
 
 
-HubbleApiClient requires a HUBBLE_API_URL and a HUBBLE_APP_TOKEN which you can obtain from https://hubble.fullscreen.net.
+HubbleApiClient requires a HUBBLE_APP_TOKEN which you can obtain from https://hubble.fullscreen.net.
 
-1. If you're using this in Rails, you can choose to create an initializer instead and configure the URL and TOKEN as follows:
+1. Set the following ENV variables in your Ruby/Rails application
 
     ```ruby
-    HubbleApiClient.configure do |config|
-      config.app_access_token = 'YourAccessToken'
-      config.host_url = 'HubbleApiBaseURL'
-    end
+      ENV['HUBBLE_APP_TOKEN'] = hubble_app_token_given_to_you
+      ENV['HUBBLE_ENV'] = "staging" # if you're using on Rails, could be "staging", "production", or "development"
     ```
 
-### API Overview
+### Talents API Overview
 
-#### Use #find_or_create_by! to get a talent account object so we can
-find the hubble UUID for that account
-
+#### Use #create to create a new unique Hubble uuid associated with an email
 
 ```ruby
-talent_account = TalentAccount.find_or_create_by!(email: "someone@fullscreen.com", id: 1)
-talent_account.uuid # => '123456'
+talent_account = TalentAccount.create(email: "someone@fullscreen.com")
+# => '123456'
+```
 
+#### Use #update to update an email with an already assigned Hubble uuid
+
+```ruby
+talent_account = TalentAccount.new(id: '123456').update(email:
+"update_someone@fullscreen.com")
+# => '123456'
 ```
 
 ## Development
@@ -47,6 +50,16 @@ talent_account.uuid # => '123456'
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+
+## Testing
+
+To run the test suite:
+
+When testing locally, first create a .env file with HUBBLE_APP_TOKEN like in .env.example. Then at the terminal do `source .env`.
+
+```ruby
+bundle exec rspec spec
+```
 
 ## Contributing
 

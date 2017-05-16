@@ -1,55 +1,31 @@
 module HubbleApiClient
   class TalentAccount
-    attr_reader :data
+    attr_reader :hubble_uuid
 
-    def initialize(data:)
-      @data = data
+    def initialize(id:)
+      @hubble_uuid = id
     end
 
-    def hubble_uuid
-      data.fetch(:id, nil)
-    end
-
+    # @return [String] the hubble uuid associated with the email
     def self.create(email:)
-#      account_data = create_uuid(email)
-#      process_account_data(account_data)
-      if email!="john-example.com"
-        new data: fake_response(email)[:data]
-      else
-        new data: {}
-      end
+      body = serialize_attributes(attributes: {email: email})
+      data = parse process_request(route: "talent-accounts", body: body, request_type: "post")
+      process_account_data(data)
     end
 
-    def self.update(attributes:, hubble_uuid:)
-#      account_data = update_attributes(attributes, hubble_uuid)
-#      process_account_data(account_data)
-      if attributes[:email]=="john-example.com"
-        new data: {}
-      else
-        new data: fake_response(attributes[:email])[:data]
-      end
+    # @return [String] the hubble uuid associated with the email
+    def update(email:)
+      body = self.class.serialize_attributes(attributes: {email: email})
+      data = self.class.parse self.class.process_request(route: "talent-accounts/#{hubble_uuid}", body: body, request_type: "put")
+      self.class.process_account_data(data)
     end
 
     private
 
-    def self.get_uuid(email)
-      parse API.get_request(route: "talent-accounts/search", query: URI.encode_www_form("email"=>email))
-    end
-
-    def self.create_uuid(email)
-      body = serialize_attributes(attributes: {email: email}, resource_type: "talent-accounts")
-      parse API.post_request(route: "talent-accounts", body: body)
-    end
-
-    def self.update_attributes(attributes, hubble_uuid)
-      body = serialize_attributes(attributes: attributes, resource_type: "talent-accounts")
-      parse API.put_request(route: "talent-accounts/#{hubble_uuid}", body: body)
-    end
-
-    def self.serialize_attributes(attributes:, resource_type:)
+    def self.serialize_attributes(attributes:)
       {
         data: {
-          type: resource_type,
+          type: "talent-accounts",
           attributes: attributes
         }
       }
@@ -60,25 +36,58 @@ module HubbleApiClient
     end
 
     def self.process_account_data(account_data)
-      if account_data[:errors].present?
-        raise HubbleApiClientNotFound, "Error(s): #{account_data[:errors]}"
+      if !account_data[:errors].nil? || account_data[:data].nil?
+        nil
       else
-        new data: account_data[:data]
+        account_data[:data][:id]
       end
     end
 
-    def self.fake_response(email)
-      {
-        "data": {
-          "id": "1234",
-          "type": "talent_accounts",
-          "attributes": {
-            "email": email,
-            "first_name": "brian",
-            "last_name": "lu"
-          }
-        }
-      }
+    def self.process_request(route:, body:, request_type:)
+      uri = URI::HTTPS.build host: host.fetch(ENV['HUBBLE_ENV']),
+        path: "/api/v1/#{route}"
+      net_http_class = Object.const_get("Net::HTTP::#{request_type.capitalize}")
+      request = net_http_class.new uri
+      request.body = body.to_json
+      response_for(assign_headers(request), uri)
+    end
+
+    def self.response_for(http_request, uri)
+      response = Net::HTTP.start(uri.host, 443, use_ssl: true) do |http|
+        http.request http_request
+      end
+      response
+    rescue *server_errors => e
+      raise ConnectionError, e.message
+    end
+
+    def self.assign_headers(request)
+      headers.each_key do |header|
+        request[header] = headers[header]
+      end
+      request
+    end
+
+    def self.host
+      {"production" => "hubble.fullscreen.net",
+       "staging" => "stage-hubble.fullscreen.net"}
+    end
+
+    def self.headers
+      {"Authorization" => "Bearer #{ENV['HUBBLE_APP_TOKEN']}",
+       "Content-Type" => "application/vnd.api+json"}
+    end
+
+    def self.server_errors
+      [
+        OpenSSL::SSL::SSLError,
+        Errno::ETIMEDOUT,
+        Errno::EHOSTUNREACH,
+        Errno::ENETUNREACH,
+        Errno::ECONNRESET,
+        Net::OpenTimeout,
+        SocketError
+      ]
     end
   end
 end
