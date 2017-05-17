@@ -1,5 +1,11 @@
 require "bundler/setup"
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
+require 'simplecov'
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new [
+  SimpleCov::Formatter::HTMLFormatter
+]
+SimpleCov.start
+
 require "hubble_api_client"
 
 RSpec.configure do |config|
