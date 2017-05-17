@@ -9,7 +9,7 @@ RSpec.describe HubbleApiClient::TalentAccount do
     context "with valid arguments" do
       let(:talent_account_creation) { HubbleApiClient::TalentAccount.create(email: valid_email) }
       it "should return a TalentAccount hubble id" do
-        expect(talent_account_creation).to eq hubble_uuid
+        expect(talent_account_creation).to be_a(String)
       end
     end
 
@@ -42,7 +42,7 @@ RSpec.describe HubbleApiClient::TalentAccount do
     context "with valid arguments" do
       let(:talent_account_update) { HubbleApiClient::TalentAccount.new(id: hubble_uuid).update(email: valid_email) }
       it "should return a TalentAccount hubble id" do
-        expect(talent_account_update).to eq hubble_uuid
+        expect(talent_account_update).to be_a(String)
       end
     end
 
@@ -60,7 +60,7 @@ RSpec.describe HubbleApiClient::TalentAccount do
       let(:attrs) { {email: valid_email} }
       it "should return a TalentAccount hubble id" do
         allow(talent_account).to receive(:update).with(attrs).and_return(hubble_uuid)
-        expect(talent_account.update(attrs)).to eq hubble_uuid
+        expect(talent_account.update(attrs)).to be_a(String)
       end
     end
 
