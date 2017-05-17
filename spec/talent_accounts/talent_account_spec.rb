@@ -27,23 +27,6 @@ RSpec.describe HubbleApiClient::TalentAccount do
     end
   end
 
-  describe "mock#create" do
-    let(:talent_account) { HubbleApiClient::TalentAccount }
-    context "with valid arguments" do
-      it "should return a TalentAccount hubble id" do
-        allow(talent_account).to receive(:create).with(email: valid_email).and_return(hubble_uuid)
-        expect(talent_account.create(email: valid_email)).to eq(hubble_uuid)
-      end
-    end
-
-    context "with invalid arguments" do
-      it "should return nil" do
-        allow(talent_account).to receive(:create).with(email: invalid_email).and_return(nil)
-        expect(talent_account.create(email: invalid_email)).to be_nil
-      end
-    end
-  end
-
   describe "update" do
     context "with valid arguments" do
       let(:talent_account_update) { HubbleApiClient::TalentAccount.new(id: hubble_uuid).update(email: valid_email) }
@@ -62,25 +45,6 @@ RSpec.describe HubbleApiClient::TalentAccount do
     context "connection errors" do
       include_examples "connection_errors" do
         let(:http_call) { HubbleApiClient::TalentAccount.new(id: hubble_uuid).update(email: valid_email) }
-      end
-    end
-  end
-
-  describe "mock#update" do
-    let(:talent_account) { HubbleApiClient::TalentAccount.new(id: hubble_uuid) }
-    context "with valid arguments" do
-      let(:attrs) { {email: valid_email} }
-      it "should return a TalentAccount hubble id" do
-        allow(talent_account).to receive(:update).with(attrs).and_return(hubble_uuid)
-        expect(talent_account.update(attrs)).to be_a(String)
-      end
-    end
-
-    context "with invalid arguments" do
-      let(:attrs) { {email: invalid_email} }
-      it "should be nil" do
-        allow(talent_account).to receive(:update).with(attrs).and_return(nil)
-        expect(talent_account.update(attrs)).to be_nil
       end
     end
   end
