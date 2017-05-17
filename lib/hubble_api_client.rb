@@ -1,4 +1,5 @@
-require 'net/http'
-require 'json'
+require "net/http"
+require "json"
+require "openssl"
 require "hubble_api_client/talent_account"
 require "hubble_api_client/errors"
