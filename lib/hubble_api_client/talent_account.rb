@@ -1,4 +1,6 @@
 module HubbleApiClient
+  # Provides methods to interact with the Hubble API talent-accounts endpoint
+  # @see https://hubble.fullscreen.net/api/docs#talentaccounts-create-talent-account
   class TalentAccount
     attr_reader :hubble_uuid
 
@@ -57,7 +59,7 @@ module HubbleApiClient
         http.request http_request
       end
       response
-    rescue *server_errors => e
+    rescue *ConnectionError::ERRORS => e
       raise ConnectionError, e.message
     end
 
@@ -76,18 +78,6 @@ module HubbleApiClient
     def self.headers
       {"Authorization" => "Bearer #{ENV['HUBBLE_APP_TOKEN']}",
        "Content-Type" => "application/vnd.api+json"}
-    end
-
-    def self.server_errors
-      [
-        OpenSSL::SSL::SSLError,
-        Errno::ETIMEDOUT,
-        Errno::EHOSTUNREACH,
-        Errno::ENETUNREACH,
-        Errno::ECONNRESET,
-        Net::OpenTimeout,
-        SocketError
-      ]
     end
   end
 end
