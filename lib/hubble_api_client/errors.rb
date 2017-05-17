@@ -3,7 +3,8 @@ module HubbleApiClient
   # Documents the connection errors that can occur
   class ConnectionError < StandardError
     # Possible list of connection errors that can occur
-    ERRORS = [
+    def self.errors
+      [
         OpenSSL::SSL::SSLError,
         Errno::ETIMEDOUT,
         Errno::EHOSTUNREACH,
@@ -12,5 +13,6 @@ module HubbleApiClient
         Net::OpenTimeout,
         SocketError
       ]
+    end
   end
 end

@@ -59,7 +59,7 @@ module HubbleApiClient
         http.request http_request
       end
       response
-    rescue *ConnectionError::ERRORS => e
+    rescue *ConnectionError.errors => e
       raise ConnectionError, e.message
     end
 
