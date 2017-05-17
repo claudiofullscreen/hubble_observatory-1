@@ -2,7 +2,6 @@ module HubbleApiClient
   # Provides methods to interact with the Hubble API talent-accounts endpoint
   # @see https://hubble.fullscreen.net/api/docs#talentaccounts-create-talent-account
   class TalentAccount
-    attr_reader :hubble_uuid
 
     def initialize(id:)
       @hubble_uuid = id
@@ -18,7 +17,7 @@ module HubbleApiClient
     # @return [String] the hubble uuid associated with the email
     def update(email:)
       body = self.class.serialize_attributes(attributes: {email: email})
-      data = self.class.parse self.class.process_request(route: "talent-accounts/#{hubble_uuid}", body: body, request_type: "put")
+      data = self.class.parse self.class.process_request(route: "talent-accounts/#{@hubble_uuid}", body: body, request_type: "put")
       self.class.process_account_data(data)
     end
 
