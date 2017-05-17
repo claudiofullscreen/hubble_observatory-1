@@ -46,7 +46,7 @@ module HubbleApiClient
     end
 
     def self.process_request(route:, body:, request_type:)
-      uri = URI::HTTPS.build host: host.fetch(ENV['HUBBLE_ENV'], 'stage-hubble.fullscreen.net'),
+      uri = URI::HTTPS.build host: host,
         path: "/api/v1/#{route}"
       net_http_class = Object.const_get("Net::HTTP::#{request_type.capitalize}")
       request = net_http_class.new uri
@@ -71,8 +71,11 @@ module HubbleApiClient
     end
 
     def self.host
-      {"production" => "hubble.fullscreen.net",
-       "staging" => "stage-hubble.fullscreen.net"}
+      if ENV['HUBBLE_ENV'] == 'production'
+        'hubble.fullscreen.net'
+      else
+        'stage-hubble.fullscreen.net'
+      end
     end
 
     def self.headers

@@ -25,8 +25,11 @@ HubbleApiClient requires a HUBBLE_APP_TOKEN which you can obtain from https://hu
 
     ```ruby
       ENV['HUBBLE_APP_TOKEN'] = hubble_app_token_given_to_you
-      ENV['HUBBLE_ENV'] = "staging" # if you're using on Rails, could be "staging", "production", or "development"
+      ENV['HUBBLE_ENV'] = "production"
     ```
+
+Note: If you set `ENV['HUBBLE_ENV']` to any value other than
+`production`, you will hit the staging Hubble API
 
 ### Talents API Overview
 
@@ -47,7 +50,7 @@ talent_account = TalentAccount.new(id: '123456').update(email:
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repo, run `bin/setup` to install dependencies.
 
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
@@ -55,10 +58,8 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 To run the test suite:
 
-When testing locally, first create a .env file with HUBBLE_APP_TOKEN like in .env.example. Then at the terminal do `source .env`.
-
 ```ruby
-bundle exec rspec spec
+HUBBLE_APP_TOKEN=<token> bundle exec rake
 ```
 
 ## Contributing
