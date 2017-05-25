@@ -6,7 +6,7 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new [
 ]
 SimpleCov.start
 
-require "hubble_api_client"
+require "hubble_observatory"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
