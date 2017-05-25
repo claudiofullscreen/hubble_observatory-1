@@ -1,13 +1,13 @@
-# HubbleApiClient
+# HubbleObservatory
 
-HubbleApiClient is a Ruby library to make it easy to interact with the Hubble API.
+HubbleObservatory is a Ruby library to make it easy to interact with the Hubble API.
 
 ## Installation and Configuration
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'hubble_api_client'
+gem 'hubble_observatory'
 ```
 
 And then execute:
@@ -16,10 +16,10 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install hubble_api_client
+    $ gem install hubble_observatory
 
 
-HubbleApiClient requires a HUBBLE_APP_TOKEN which you can obtain from https://hubble.fullscreen.net.
+HubbleObservatory requires a HUBBLE_APP_TOKEN which you can obtain from https://hubble.fullscreen.net.
 
 1. Set the following ENV variables in your Ruby/Rails application
 
@@ -64,7 +64,7 @@ HUBBLE_APP_TOKEN=<token> bundle exec rake
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/hubble_api_client.
+Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/hubble_observatory.
 
 
 ## License

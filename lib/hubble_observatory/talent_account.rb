@@ -1,4 +1,4 @@
-module HubbleApiClient
+module HubbleObservatory
   # Provides methods to interact with the Hubble API talent-accounts endpoint
   # @see https://hubble.fullscreen.net/api/docs#talentaccounts-create-talent-account
   class TalentAccount
