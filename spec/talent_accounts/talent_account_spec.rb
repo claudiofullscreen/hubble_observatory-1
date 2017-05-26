@@ -31,7 +31,7 @@ RSpec.describe HubbleObservatory::TalentAccount do
   describe "update" do
     context "with existing valid email" do
       let(:talent_account_hubble_uuid) { HubbleObservatory::TalentAccount.new(id: hubble_uuid).update(email: valid_email) }
-      it "should return a TalentAccount hubble id" do
+      it "should be nil" do
         expect(talent_account_hubble_uuid).to be_nil
       end
     end
