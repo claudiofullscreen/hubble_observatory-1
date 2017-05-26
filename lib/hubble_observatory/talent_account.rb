@@ -9,15 +9,13 @@ module HubbleObservatory
 
     # @return [String] the hubble uuid associated with the email
     def self.create(email:)
-      body = serialize_attributes(attributes: {email: email})
-      data = parse process_request(route: "talent-accounts", body: body, request_type: "post")
+      data = parse process_request(route: "talent-accounts", body_attrs: {email: email}, request_type: "post")
       process_account_data(data)
     end
 
     # @return [String] the hubble uuid associated with the email
     def update(email:)
-      body = self.class.serialize_attributes(attributes: {email: email})
-      data = self.class.parse self.class.process_request(route: "talent-accounts/#{@hubble_uuid}", body: body, request_type: "put")
+      data = self.class.parse self.class.process_request(route: "talent-accounts/#{@hubble_uuid}", body_attrs: {email: email}, request_type: "put")
       self.class.process_account_data(data)
     end
 
@@ -37,27 +35,31 @@ module HubbleObservatory
     end
 
     def self.process_account_data(account_data)
-      if !account_data[:errors].nil? || account_data[:data].nil?
-        nil
-      else
-        account_data[:data][:id]
-      end
+      extract_attribute_from_data(data: account_data, attribute: :id) || extract_uuid_from_errors(data: account_data)
     end
 
-    def self.process_request(route:, body:, request_type:)
+    def self.extract_attribute_from_data(data:, attribute:)
+      data.fetch(:data, {}).fetch(attribute, nil)
+    end
+
+    def self.extract_uuid_from_errors(data:)
+      data.fetch(:errors, [{}])[0].fetch(:hubble_uuid, nil)
+    end
+
+    def self.process_request(route:, body_attrs:, request_type:)
       uri = URI::HTTPS.build host: host,
         path: "/api/v1/#{route}"
       net_http_class = Object.const_get("Net::HTTP::#{request_type.capitalize}")
+      body = serialize_attributes(attributes: body_attrs)
       request = net_http_class.new uri
       request.body = body.to_json
       response_for(assign_headers(request), uri)
     end
 
     def self.response_for(http_request, uri)
-      response = Net::HTTP.start(uri.host, 443, use_ssl: true) do |http|
+      Net::HTTP.start(uri.host, 443, use_ssl: true) do |http|
         http.request http_request
       end
-      response
     rescue *ConnectionError.errors => e
       raise ConnectionError, e.message
     end
