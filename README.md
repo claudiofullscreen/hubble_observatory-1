@@ -36,14 +36,14 @@ Note: If you set `ENV['HUBBLE_ENV']` to any value other than
 #### Use #create to create a new unique Hubble uuid associated with an email
 
 ```ruby
-talent_account = TalentAccount.create(email: "someone@fullscreen.com")
+talent_account = HubbleObservatory::TalentAccount.create(email: "someone@fullscreen.com")
 # => '123456'
 ```
 
 #### Use #update to update an email with an already assigned Hubble uuid
 
 ```ruby
-talent_account = TalentAccount.new(id: '123456').update(email:
+talent_account = HubbleObservatory::TalentAccount.new(id: '123456').update(email:
 "update_someone@fullscreen.com")
 # => '123456'
 ```
