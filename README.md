@@ -1,6 +1,26 @@
-# Hubble Observatory
+Hubble Observatory
+==================
 
 Hubble Observatory is a Ruby library to interact with the Hubble API.
+
+The **source code** is available on [GitHub](https://github.com/fullscreen/hubble_observatory) and the **documentation** on [RubyDoc](http://www.rubydoc.info/gems/hubble_observatory/frames).
+
+[![Build Status](http://img.shields.io/travis/Fullscreen/hubble_observatory/master.svg)](https://travis-ci.org/Fullscreen/hubble_observatory)
+[![Coverage Status](http://img.shields.io/coveralls/Fullscreen/hubble_observatory/master.svg)](https://coveralls.io/r/Fullscreen/hubble_observatory)
+[![Dependency Status](http://img.shields.io/gemnasium/Fullscreen/hubble_observatory.svg)](https://gemnasium.com/Fullscreen/hubble_observatory)
+[![Code Climate](http://img.shields.io/codeclimate/github/Fullscreen/hubble_observatory.svg)](https://codeclimate.com/github/Fullscreen/hubble_observatory)
+[![Online docs](http://img.shields.io/badge/docs-✓-green.svg)](http://www.rubydoc.info/gems/hubble_observatory/frames)
+[![Gem Version](http://img.shields.io/gem/v/hubble_observatory.svg)](http://rubygems.org/gems/hubble_observatory)
+
+After [registering your app](https://fullscreen.github.io/hubble_observatory/), you can run commands like:
+
+```ruby
+HubbleObservatory::TalentAccount.create email: 'user@example.com'
+# => '123456'
+```
+
+The **full documentation** is available at [rubydoc.info](http://www.rubydoc.info/gems/hubble_observatory/frames).
+
 
 ## Installation and Configuration
 
