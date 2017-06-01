@@ -1,5 +1,14 @@
 module HubbleObservatory
+  # A wrapper around +Net::HTTP+ to send HTTP requests to the Hubble API and
+  # return their result or raise an error if the result is unexpected.
+  # The basic way to use Request is by calling +run_request+ on an instance.
   class Request
+    # Initializes a Request object.
+    # @param [Hash] attrs are the options for the request.
+    # @option attrs [Symbol] :method (:get) The HTTP method to use.
+    # @option attrs [String] :route The (base) route of the API endpoint
+    # @option attrs [Hash] :body_attrs ({}) The attributes for the body
+    # per the JSON API spec
     def initialize(attrs: {})
       @request_type = attrs.fetch :request_type, :get
       @route = attrs.fetch :route, "talent-accounts"
@@ -7,6 +16,7 @@ module HubbleObservatory
       @error_message = attrs.fetch :error_message, ->(body) {"Error: #{body}"}
     end
 
+    # Sends the request and returns the response
     def run_request
       net_http_class = Object.const_get("Net::HTTP::#{@request_type.capitalize}")
       request = net_http_class.new uri
@@ -14,6 +24,7 @@ module HubbleObservatory
       response_for(assign_headers(request), uri)
     end
 
+    # parse the JSON response body
     def parse(response)
       JSON.parse response.body, symbolize_names: true
     end
