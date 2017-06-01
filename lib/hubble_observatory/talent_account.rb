@@ -72,7 +72,7 @@ module HubbleObservatory
     end
 
     def self.host
-      subdomain = ENV['HUBBLE_ENV'] == 'production' ? 'hubble' : 'stage-hubble'
+      subdomain = ENV['HUBBLE_ENV'] == 'production' ? 'hubble' : 'rc-hubble'
       "#{subdomain}.fullscreen.net"
     end
 
