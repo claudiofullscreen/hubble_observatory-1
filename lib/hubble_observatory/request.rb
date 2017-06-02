@@ -13,6 +13,7 @@ module HubbleObservatory
       @request_type = attrs.fetch :request_type, :get
       @route = attrs.fetch :route, "talent-accounts"
       @body_attrs = attrs.fetch :body_attrs, nil
+      @params = attrs.fetch :params, {}
       @error_message = attrs.fetch :error_message, ->(body) {"Error: #{body}"}
     end
 
@@ -41,7 +42,11 @@ module HubbleObservatory
     end
 
     def uri
-      @uri ||= URI::HTTPS.build host: host, path: "/api/v1/#{@route}"
+      @uri ||= URI::HTTPS.build host: host, path: "/api/v1/#{@route}", query: query
+    end
+
+    def query
+      URI.encode_www_form @params
     end
 
     def response_for(http_request, uri)

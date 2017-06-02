@@ -49,7 +49,7 @@ If you don’t set `ENV['HUBBLE_ENV']` to "production", the staging Hubble API w
 
 ## How to use
 
-Hubble Observatory provide only two methods to create and update talent accounts.
+Hubble Observatory provide only methods to create and update talent accounts and employees.
 
 ### TalentAccount.create
 
@@ -68,6 +68,15 @@ Update the email of a Talent Account give the corresponding ID:
 talent_account = HubbleObservatory::TalentAccount.new id: '123456'
 talent_account.update email: 'newuser@example.com'
 # => '123456'
+```
+
+### Employee#create
+
+Obtain the token of an employee given the appropriate access token:
+
+```ruby
+HubbleObservatory::Employee.create access_token: 'ya.29abcd'
+# => 'hb.384562'
 ```
 
 ## How to develop and contribute
